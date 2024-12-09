@@ -34,11 +34,10 @@ end
 def generate_antenodes(attennae, xmax, ymax, resonance)
   output = []
   attennae.combination(2).each do |pair|
-    puts "#{pair[0].to_s} and #{pair[1].to_s}"
     xdiff = pair[1].x - pair[0].x
     ydiff = pair[1].y - pair[0].y    
     if resonance
-      output.append(pair[0].generate_resonances(xdiff,ydiff,xmax,ymax))
+      output.append(pair[0].generate_resonances(xdiff,ydiff,xmax,ymax)).flatten!
     else
       ante1 = Coordinate2D.new(pair[1].x + xdiff,pair[1].y + ydiff)
       ante2 = Coordinate2D.new(pair[0].x - xdiff,pair[0].y - ydiff)
@@ -48,7 +47,7 @@ def generate_antenodes(attennae, xmax, ymax, resonance)
   end
   return output
 end
-File.open("inputs/day8.simpleinput", "r") do |f|
+File.open("inputs/day8.input", "r") do |f|
   attennae_hash = Hash.new()
   antenode_set = Set[]
   resonance_set = Set[]
@@ -73,11 +72,10 @@ File.open("inputs/day8.simpleinput", "r") do |f|
 
   ymax = y - 1
 
-  puts attennae_hash
   attennae_hash.each_value do |attennae|
-    # antenode_set.merge(generate_antenodes(attennae, xmax, ymax, false))
+    antenode_set.merge(generate_antenodes(attennae, xmax, ymax, false))
     resonance_set.merge(generate_antenodes(attennae, xmax, ymax, true))
   end
-  # puts antenode_set.size()
+  puts antenode_set.size()
   puts resonance_set.size()
 end
