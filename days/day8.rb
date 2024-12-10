@@ -28,8 +28,6 @@ Coordinate2D = Struct.new(:x, :y) do
   end
 end
 
-
-
 # returns an array of all possible antenodes that can be generated given a set of attennae.
 def generate_antenodes(attennae, xmax, ymax, resonance)
   output = []
@@ -37,8 +35,10 @@ def generate_antenodes(attennae, xmax, ymax, resonance)
     xdiff = pair[1].x - pair[0].x
     ydiff = pair[1].y - pair[0].y    
     if resonance
+      # part 2
       output.append(pair[0].generate_resonances(xdiff,ydiff,xmax,ymax)).flatten!
     else
+      # part 1
       ante1 = Coordinate2D.new(pair[1].x + xdiff,pair[1].y + ydiff)
       ante2 = Coordinate2D.new(pair[0].x - xdiff,pair[0].y - ydiff)
       output.append(ante1) if ante1.inbounds(xmax, ymax)
